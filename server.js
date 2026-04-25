@@ -11,12 +11,13 @@ const HOST = process.env.HOST || "0.0.0.0";
 const TIME_ZONE = "Asia/Bangkok";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
 const dataDir = process.env.DATA_DIR || __dirname;
-const DB_PATH = path.join(dataDir, "attendance.db");
-const db = new sqlite3.Database(DB_PATH);
 const uploadsDir = path.join(dataDir, "uploads");
+const DB_PATH = path.join(dataDir, "attendance.db");
 const adminSessions = new Map();
 
+fs.mkdirSync(dataDir, { recursive: true });
 fs.mkdirSync(uploadsDir, { recursive: true });
+const db = new sqlite3.Database(DB_PATH);
 
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));
@@ -147,7 +148,7 @@ async function migrateDatabase() {
 
   const studentColumns = [
     ["class_name", "TEXT DEFAULT ''"],
-    ["nfc_uid", "TEXT UNIQUE"],
+    ["nfc_uid", "TEXT"],
     ["photo_url", "TEXT DEFAULT ''"]
   ];
 
