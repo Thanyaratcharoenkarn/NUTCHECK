@@ -5,14 +5,16 @@ const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 
 const app = express();
-const HOST = process.env.HOST || "0.0.0.0";
 const PORT = Number(process.env.PORT || 3000);
-const APP_TIME_ZONE = "Asia/Bangkok";
-const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
-const DB_PATH = process.env.DB_PATH || path.join(DATA_DIR, "attendance.db");
-const db = new sqlite3.Database(DB_PATH);
+const HOST = process.env.HOST || "0.0.0.0";
+const TIME_ZONE = "Asia/Bangkok";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
+const dataDir = process.env.DATA_DIR || __dirname;
+const db = new sqlite3.Database(path.join(dataDir, "attendance.db"));
+const uploadsDir = path.join(dataDir, "uploads");
+const adminSessions = new Map();
 
-require("fs").mkdirSync(path.dirname(DB_PATH), { recursive: true });
+fs.mkdirSync(uploadsDir, { recursive: true });
 
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));

@@ -2,15 +2,11 @@ services:
   - type: web
     name: nutcheck
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_VERSION
         value: 24.14.1
       - key: DATA_DIR
-        value: /opt/render/project/src/data
-    disk:
-      name: nutcheck-data
-      mountPath: /opt/render/project/src/data
-      sizeGB: 1
+        value: /tmp/nutcheck-data
