@@ -7,6 +7,6 @@ services:
     startCommand: npm start
     envVars:
       - key: NODE_VERSION
-        value: 24.14.1
+        value: 22.22.0
       - key: DATA_DIR
         value: /tmp/nutcheck-data
