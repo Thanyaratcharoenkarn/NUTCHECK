@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="theme-warm">
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Attendance made playful</p>
+        <h1>NutCheck</h1>
+        <p class="subtitle">เช็คชื่อเข้าเรียนแบบง่าย ๆ พร้อมดูภาพรวมบน dashboard ได้ทันที</p>
+        <div class="hero-actions">
+          <a class="ghost-link" href="/dashboard.html">เปิด Dashboard</a>
+        </div>
+      </div>
+
+      <div class="check-card">
+        <p class="section-label">แตะบัตรเพื่อเช็คชื่อ</p>
+
+        <label class="field">
+          <span>รหัสนักเรียน</span>
+          <input id="studentId" type="text" value="65001" placeholder="เช่น 65001">
+        </label>
+
+        <button id="checkButton" class="primary-button" type="button">เช็คชื่อเข้าเรียน</button>
+
+        <div class="loader" id="loader" hidden>🐿️💨 กำลังวิ่งไปลงชื่อ...</div>
+        <p class="result" id="result">พร้อมเช็คชื่อ</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/main.js"></script>
+</body>
+</html>

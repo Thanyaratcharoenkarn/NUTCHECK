@@ -1,0 +1,7 @@
+node_modules/
+attendance.db
+.DS_Store
+*.log
+dist/
+coverage/
+.env

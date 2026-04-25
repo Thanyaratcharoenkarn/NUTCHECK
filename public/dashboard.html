@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutCheck Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="theme-warm dashboard-page">
+  <main class="shell shell-dashboard">
+    <section class="dashboard-header">
+      <div>
+        <p class="eyebrow">Live classroom snapshot</p>
+        <h1>Dashboard</h1>
+        <p class="subtitle">สรุปภาพรวมการเช็คชื่อและรายการล่าสุดของวันนี้</p>
+      </div>
+
+      <a class="ghost-link" href="/">กลับหน้าเช็คชื่อ</a>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p>นักเรียนทั้งหมด</p>
+        <strong id="totalStudents">0</strong>
+      </article>
+      <article class="stat-card">
+        <p>เช็คชื่อวันนี้</p>
+        <strong id="todayCheckIns">0</strong>
+      </article>
+      <article class="stat-card">
+        <p>มาเรียนไม่ซ้ำ</p>
+        <strong id="uniqueCheckIns">0</strong>
+      </article>
+      <article class="stat-card">
+        <p>ยังไม่เช็คชื่อ</p>
+        <strong id="absentCount">0</strong>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <h2>สถานะนักเรียน</h2>
+          <button id="refreshDashboard" class="secondary-button" type="button">รีเฟรช</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>รหัส</th>
+                <th>ชื่อ</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTable"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>รายการเช็คชื่อล่าสุด</h2>
+          <p id="dashboardDate" class="muted"></p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>เวลา</th>
+                <th>รหัส</th>
+                <th>ชื่อ</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="logsTable"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="/dashboard.js"></script>
+</body>
+</html>
