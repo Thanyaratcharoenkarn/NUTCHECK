@@ -11,7 +11,8 @@ const HOST = process.env.HOST || "0.0.0.0";
 const TIME_ZONE = "Asia/Bangkok";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
 const dataDir = process.env.DATA_DIR || __dirname;
-const db = new sqlite3.Database(path.join(dataDir, "attendance.db"));
+const DB_PATH = path.join(dataDir, "attendance.db");
+const db = new sqlite3.Database(DB_PATH);
 const uploadsDir = path.join(dataDir, "uploads");
 const adminSessions = new Map();
 
@@ -27,7 +28,7 @@ db.serialize(() => {
 
 function getLocalDateKey(date = new Date()) {
   return new Intl.DateTimeFormat("en-CA", {
-    timeZone: APP_TIME_ZONE,
+    timeZone: TIME_ZONE,
     year: "numeric",
     month: "2-digit",
     day: "2-digit"
@@ -36,7 +37,7 @@ function getLocalDateKey(date = new Date()) {
 
 function formatCheckInTime(date = new Date()) {
   return date.toLocaleString("th-TH", {
-    timeZone: APP_TIME_ZONE,
+    timeZone: TIME_ZONE,
     dateStyle: "medium",
     timeStyle: "short"
   });
