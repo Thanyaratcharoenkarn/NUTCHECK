@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI NUTNUT - NutCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .analysis-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .student-list-panel {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .student-item {
+      padding: 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      border: 1px solid #e5e7eb;
+      transition: all 0.2s;
+    }
+    .student-item:hover {
+      background: #f3f4f6;
+    }
+    .student-item.active {
+      background: #e0e7ff;
+      border-color: #4f46e5;
+    }
+    .empty-analysis {
+      text-align: center;
+      padding: 4rem;
+      background: white;
+      border-radius: 8px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body class="theme-warm dashboard-page">
+  <main class="shell shell-dashboard">
+    <section class="dashboard-header">
+      <div>
+        <p class="eyebrow">AI NUTNUT</p>
+        <h1>วิเคราะห์ความถนัดนักเรียน</h1>
+        <p class="subtitle">ระบบประมวลผลเกรดและแนะนำอาชีพด้วย AI NUTNUT</p>
+      </div>
+
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span id="userInfo" class="muted" style="font-size: 0.875rem;"></span>
+        <a class="ghost-link" href="/dashboard.html">กลับไป Dashboard</a>
+      </div>
+    </section>
+
+    <div class="analysis-container">
+      <!-- Left Panel: Student List -->
+      <div class="student-list-panel">
+        <h3 style="margin-top:0;">รายชื่อนักเรียน</h3>
+        <input type="text" id="searchStudent" placeholder="ค้นหานักเรียน..." style="width:100%; padding:0.5rem; margin-bottom:1rem; border:1px solid #d1d5db; border-radius:4px;">
+        <div id="studentList">
+          <!-- Student items will be injected here -->
+        </div>
+      </div>
+
+      <!-- Right Panel: Analysis Result -->
+      <div id="analysisContent" style="display:none;">
+        <div style="background:white; padding:2rem; border-radius:8px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+          <h2 style="margin-top:0; font-size:1.5rem;">
+            🧠 ผลการวิเคราะห์ของ: <span id="aiStudentName" style="color:#4f46e5;"></span>
+          </h2>
+          
+          <div style="display:flex; gap:2rem; flex-wrap:wrap; margin-top:1.5rem;">
+            <div style="flex:1; min-width:300px;">
+              <canvas id="aiRadarChart"></canvas>
+            </div>
+            
+            <div style="flex:1; min-width:300px; display:flex; flex-direction:column; gap:1.5rem;">
+              <div style="background:#f3f4f6; padding:1.5rem; border-radius:8px; border-left:4px solid #4f46e5;">
+                <h3 style="margin-top:0; color:#4f46e5;">🎯 อาชีพที่เหมาะสมจาก AI</h3>
+                <p id="aiSuggestion" style="font-weight:bold; font-size:1.1rem; margin-bottom:0.5rem;">กำลังโหลดข้อมูล...</p>
+                <p id="aiDescription" style="color:#4b5563; margin:0;"></p>
+              </div>
+              
+              <div id="gradesEditSection" style="border:1px solid #e5e7eb; padding:1.5rem; border-radius:8px;">
+                <h3 style="margin-top:0; font-size:1.1rem;">📝 ข้อมูลคะแนน <span id="mockedBadge" style="font-size:0.7rem; background:#fbbf24; color:#92400e; padding:0.2rem 0.5rem; border-radius:4px; display:none; vertical-align:middle;">ข้อมูลจำลอง</span></h3>
+                <form id="gradesForm" style="display:flex; flex-direction:column; gap:0.75rem;">
+                  <input type="hidden" id="aiStudentId">
+                  <div style="display:grid; grid-template-columns:1fr 80px; align-items:center; gap:0.5rem;">
+                    <label>คณิตศาสตร์</label><input type="number" min="0" max="100" id="g_math" required style="padding:0.4rem; border:1px solid #d1d5db; border-radius:4px;">
+                    <label>วิทยาศาสตร์</label><input type="number" min="0" max="100" id="g_sci" required style="padding:0.4rem; border:1px solid #d1d5db; border-radius:4px;">
+                    <label>ภาษาต่างประเทศ</label><input type="number" min="0" max="100" id="g_lang" required style="padding:0.4rem; border:1px solid #d1d5db; border-radius:4px;">
+                    <label>ศิลปะ/ความคิดสร้างสรรค์</label><input type="number" min="0" max="100" id="g_art" required style="padding:0.4rem; border:1px solid #d1d5db; border-radius:4px;">
+                    <label>กีฬา/ร่างกาย</label><input type="number" min="0" max="100" id="g_phys" required style="padding:0.4rem; border:1px solid #d1d5db; border-radius:4px;">
+                  </div>
+                  <button type="submit" class="primary-button" style="margin-top:1rem; padding:0.75rem;">อัปเดตและวิเคราะห์ใหม่</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="emptyState" class="empty-analysis">
+        <h2 style="margin:0; font-size:1.5rem; color:#4b5563;">👈 กรุณาเลือกนักเรียนจากรายชื่อด้านซ้าย</h2>
+        <p>เพื่อดูผลการวิเคราะห์ความถนัดทางวิชาการและคำแนะนำสายอาชีพ</p>
+      </div>
+
+    </div>
+  </main>
+  <script src="/analysis.js"></script>
+</body>
+</html>

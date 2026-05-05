@@ -18,6 +18,7 @@
         <p class="subtitle">เช็คชื่อเข้าเรียนแบบง่าย ๆ พร้อมดูภาพรวมบน dashboard ได้ทันที</p>
         <div class="hero-actions">
           <a class="ghost-link" href="/dashboard.html">เปิด Dashboard</a>
+          <a class="ghost-link" href="/login.html" style="margin-left: 10px;">เข้าสู่ระบบ</a>
         </div>
       </div>
 
@@ -25,17 +26,22 @@
         <p class="section-label">แตะบัตรเพื่อเช็คชื่อ</p>
 
         <label class="field">
-          <span>รหัสนักเรียน</span>
-          <input id="studentId" type="text" value="65001" placeholder="เช่น 65001">
+          <span>รหัสนักเรียน / แตะบัตร NFC</span>
+          <input id="studentId" type="text" placeholder="พิมพ์รหัส หรือ แตะบัตร NFC" autofocus autocomplete="off">
         </label>
 
         <button id="checkButton" class="primary-button" type="button">เช็คชื่อเข้าเรียน</button>
+        <button id="webNfcButton" class="secondary-button" type="button" style="margin-top: 10px; width: 100%; display: none;">📱 สแกน NFC ด้วยมือถือ</button>
 
         <div class="loader" id="loader" hidden>🐿️💨 กำลังวิ่งไปลงชื่อ...</div>
         <p class="result" id="result">พร้อมเช็คชื่อ</p>
       </div>
     </section>
   </main>
+
+  <div id="feedbackOverlay" class="feedback-overlay">
+    <div id="feedbackIcon" class="feedback-icon"></div>
+  </div>
 
   <script src="/main.js"></script>
 </body>
